@@ -130,6 +130,8 @@ class Order extends BaseOrder implements OrderInterface
 
     protected $reusablePackagingEnabled = false;
 
+    protected $giveBackUnits = 0;
+
     public function __construct()
     {
         parent::__construct();
@@ -540,6 +542,26 @@ class Order extends BaseOrder implements OrderInterface
     public function setReusablePackagingEnabled($reusablePackagingEnabled)
     {
         $this->reusablePackagingEnabled = $reusablePackagingEnabled;
+
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getGiveBackUnits()
+    {
+        return $this->giveBackUnits;
+    }
+
+    /**
+     * @param mixed $reusablePackagingEnabled
+     *
+     * @return self
+     */
+    public function setGiveBackUnits($giveBackUnits)
+    {
+        $this->giveBackUnits = $giveBackUnits;
 
         return $this;
     }
