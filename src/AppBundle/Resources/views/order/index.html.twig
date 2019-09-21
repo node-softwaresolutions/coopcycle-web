@@ -33,7 +33,7 @@
             {% if form.reusablePackagingEnabled is defined or form.giveBackUnits is defined %}
             <h4>{{ 'order.reusable_packaging.title'|trans }}</h4>
             <div class="order-map__column-block">
-              {% if form.reusablePackagingEnabled is defined %}
+              {% if order.restaurant.isDepositRefundOptin and form.reusablePackagingEnabled is defined %}
                 {{ form_row(form.reusablePackagingEnabled) }}
               {% endif %}
               {% if form.giveBackUnits is defined %}
