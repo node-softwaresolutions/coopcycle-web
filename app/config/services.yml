@@ -80,6 +80,7 @@ services:
     alias: 'libphonenumber.phone_number_util'
     public: true
   Liip\ImagineBundle\Service\FilterService: '@liip_imagine.service.filter'
+  Sylius\Component\Inventory\Checker\AvailabilityCheckerInterface: '@Sylius\Component\Inventory\Checker\AvailabilityChecker'
 
   AppBundle\Routing\FoodtechEnabledAwareLoader:
     arguments:
@@ -732,3 +733,7 @@ services:
     arguments:
       - '@session.handler.native_file'
       - '@snc_redis.session.handler'
+
+  AppBundle\ReusablePackaging\InventoryOperator: ~
+
+  Sylius\Component\Inventory\Checker\AvailabilityChecker: ~
