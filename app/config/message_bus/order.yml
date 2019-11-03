@@ -24,6 +24,16 @@ services:
   # Command Handlers
   #
 
+  coopcycle.domain.order.handler.create_payment_intent:
+    class: AppBundle\Domain\Order\Handler\CreatePaymentIntentHandler
+    arguments:
+      - '@event_recorder'
+      - '@sylius.order_number_assigner'
+      - '@coopcycle.stripe_manager'
+    tags:
+      - name: command_handler
+        handles: AppBundle\Domain\Order\Command\CreatePaymentIntent
+
   coopcycle.domain.order.handler.checkout:
     class: AppBundle\Domain\Order\Handler\CheckoutHandler
     arguments:

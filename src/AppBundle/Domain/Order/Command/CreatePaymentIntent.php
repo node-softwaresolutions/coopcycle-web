@@ -7,6 +7,7 @@ use AppBundle\Sylius\Order\OrderInterface;
 class CreatePaymentIntent
 {
     private $order;
+    private $paymentMethodId;
 
     public function __construct(OrderInterface $order, $paymentMethodId)
     {

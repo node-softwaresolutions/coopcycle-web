@@ -45,6 +45,7 @@
               {% endif %}
 
               {{ form_errors(form) }}
+              <div id="card-errors" role="alert" class="alert alert-danger hidden"></div>
 
               {{ form_widget(form.stripePayment.stripeToken) }}
 
@@ -57,8 +58,6 @@
                 <div id="card-element">
                   <!-- a Stripe Element will be inserted here. -->
                 </div>
-                <!-- Used to display form errors -->
-                <div id="card-errors" role="alert"></div>
               </div>
 
               <div class="text-center">
@@ -99,7 +98,8 @@
   new CoopCycle.StripePaymentForm(document.querySelector('form[name="checkout_payment"]'), {
     publishableKey: "{{ coopcycle_setting('stripe_publishable_key') }}",
     tokenElement: document.querySelector('#checkout_payment_stripePayment_stripeToken'),
-    cardholderNameElement: document.querySelector('#checkout_payment_stripePayment_cardholderName')
+    cardholderNameElement: document.querySelector('#checkout_payment_stripePayment_cardholderName'),
+    account: {% if payment.stripeUserId %}"{{ payment.stripeUserId }}"{% else %}null{% endif %}
   });
   new CoopCycle.CheckoutDateTime(document.querySelector('#checkout_payment_shippedAt'), {
     dateElement: document.querySelector('#checkout_payment_shippedAt_date'),
