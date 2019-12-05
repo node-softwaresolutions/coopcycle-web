@@ -358,4 +358,9 @@ class ApiUser extends BaseUser implements JWTUserInterface, ChannelAwareInterfac
 
         return $this;
     }
+
+    public function hasLoopEatCredentials()
+    {
+        return null !== $this->loopeatAccessToken && null !== $this->loopeatRefreshToken;
+    }
 }

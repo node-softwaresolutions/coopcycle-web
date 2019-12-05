@@ -798,3 +798,5 @@ receipt.footer_item.total_incl_tax: Total TTC
 receipt.total: Total TTC
 receipt.billing_details: Commande payée par carte de crédit le %date%
 receipt.emitter_details: Commande au restaurant <strong>%restaurant_name%</strong>
+profile.loopeat.connect: Connecter mon compte LoopEat
+profile.loopeat.connected: Compte LoopEat connecté

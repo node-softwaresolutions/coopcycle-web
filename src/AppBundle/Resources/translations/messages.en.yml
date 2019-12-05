@@ -864,3 +864,5 @@ receipt.emitter_details: Order at restaurant <strong>%restaurant_name%</strong>
 delivery.import.success_message: 'Your file was successfully processed, %count% deliveries have been created'
 form.delivery_import.store.label: Store
 basics.view_example: View example
+profile.loopeat.connect: Connect my LoopEat account
+profile.loopeat.connected: LoopEat account connected

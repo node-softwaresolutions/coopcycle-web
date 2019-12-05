@@ -126,8 +126,28 @@ class ProfileController extends Controller
             return $this->tasksAction($request);
         }
 
+        $loopeatEnabled = $this->getParameter('loopeat_enabled');
+
+        $loopeatAuthorizeUrl = '';
+        if ($loopeatEnabled) {
+
+            $redirectUri = $this->generateUrl('loopeat_oauth_callback', [], UrlGeneratorInterface::ABSOLUTE_URL);
+
+            $queryString = http_build_query([
+                'client_id' => $this->getParameter('loopeat_client_id'),
+                'response_type' => 'code',
+                // FIXME redirect_uri doesn't work yet
+                // 'redirect_uri' => $redirectUri,
+            ]);
+
+            $loopeatAuthorizeUrl = sprintf('%s/oauth/authorize?%s', $this->getParameter('loopeat_base_url'), $queryString);
+        }
+
         return $this->render('@App/profile/index.html.twig', array(
             'user' => $user,
+            'loopeat_enabled' => $loopeatEnabled,
+            'has_loopeat_credentials' => $this->getUser()->hasLoopEatCredentials(),
+            'loopeat_authorize_url' => $loopeatAuthorizeUrl,
         ));
     }
 
