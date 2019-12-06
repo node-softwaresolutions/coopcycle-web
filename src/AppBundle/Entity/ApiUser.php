@@ -97,6 +97,10 @@ class ApiUser extends BaseUser implements JWTUserInterface, ChannelAwareInterfac
 
     protected $facebookAccessToken;
 
+    protected $loopeatAccessToken;
+
+    protected $loopeatRefreshToken;
+
     protected $quotesAllowed = false;
 
     public function __construct()
@@ -311,6 +315,46 @@ class ApiUser extends BaseUser implements JWTUserInterface, ChannelAwareInterfac
     public function setQuotesAllowed($quotesAllowed)
     {
         $this->quotesAllowed = $quotesAllowed;
+
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getLoopeatAccessToken()
+    {
+        return $this->loopeatAccessToken;
+    }
+
+    /**
+     * @param mixed $loopeatAccessToken
+     *
+     * @return self
+     */
+    public function setLoopeatAccessToken($loopeatAccessToken)
+    {
+        $this->loopeatAccessToken = $loopeatAccessToken;
+
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getLoopeatRefreshToken()
+    {
+        return $this->loopeatRefreshToken;
+    }
+
+    /**
+     * @param mixed $loopeatRefreshToken
+     *
+     * @return self
+     */
+    public function setLoopeatRefreshToken($loopeatRefreshToken)
+    {
+        $this->loopeatRefreshToken = $loopeatRefreshToken;
 
         return $this;
     }
