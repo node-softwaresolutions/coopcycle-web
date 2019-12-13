@@ -49,6 +49,11 @@ framework:
         pools:
             enabled_filter_configurator.cache:
                 adapter: cache.adapter.filesystem
+    messenger:
+        transports:
+            async: "%redis_dsn%/%database_name%:messages"
+        routing:
+            'AppBundle\Message\PushNotification': async
 
 # Twig Configuration
 twig:
