@@ -136,6 +136,7 @@ class ProfileController extends Controller
             $queryString = http_build_query([
                 'client_id' => $this->getParameter('loopeat_client_id'),
                 'response_type' => 'code',
+                'scope' => implode(' ', ['customer:read', 'customer:transaction']),
                 // FIXME redirect_uri doesn't work yet
                 // 'redirect_uri' => $redirectUri,
             ]);

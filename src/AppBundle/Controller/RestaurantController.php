@@ -190,6 +190,26 @@ class RestaurantController extends AbstractController
      */
     public function indexAction($id, $slug, Request $request, SlugifyInterface $slugify, CartContextInterface $cartContext)
     {
+        $user = $this->getUser();
+
+        $client = new \GuzzleHttp\Client([
+            // Base URI is used with relative requests
+            'base_uri' => $this->getParameter('loopeat_base_url'),
+            // You can set any number of default request options.
+            'timeout'  => 2.0,
+        ]);
+
+        $response = $client->request('GET', '/customers/current', [
+            'headers' => [
+                'Authorization' => 'Bearer '.$this->getUser()->getLoopeatAccessToken()
+            ]
+        ]);
+
+        var_dump((string) $response->getBody());
+
+        // var_dump($user->getLoopeatAccessToken());
+
+
         $restaurant = $this->getDoctrine()
             ->getRepository(Restaurant::class)->find($id);
 
