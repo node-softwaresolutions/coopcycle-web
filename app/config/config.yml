@@ -141,6 +141,11 @@ doctrine:
             Sylius\Component\Order\Model\OrderInterface: AppBundle\Sylius\Order\OrderInterface
 
 api_platform:
+    swagger:
+      api_keys:
+        apiKey:
+          name: Authorization
+          type: header
     mapping:
         paths:
             - '%kernel.project_dir%/src/AppBundle/Api/Dto'
