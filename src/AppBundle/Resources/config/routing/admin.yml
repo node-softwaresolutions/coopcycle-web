@@ -109,6 +109,57 @@ admin_restaurants:
             restaurant: admin_restaurant
     methods: [ GET ]
 
+admin_restaurant_category_new:
+  path: /admin/restaurants-categories/new
+  defaults:
+    _controller: AppBundle\Controller\AdminController::newRestaurantCategoryAction
+    layout: '@App/admin.html.twig'
+    template: '@App/restaurant/category_form.html.twig'
+    routes:
+      success: admin_restaurants_categories
+      restaurants: admin_restaurants
+      menu_taxons: admin_restaurant_menu_taxons
+      menu_taxon: admin_restaurant_menu_taxon
+      products: admin_restaurant_products
+      product_options: admin_restaurant_product_options
+      dashboard: admin_restaurant_dashboard
+      planning: admin_restaurant_planning
+      category: admin_restaurant_category
+  methods: [ GET, POST ]
+
+admin_restaurant_category:
+  path: /admin/restaurants-categories/{id}
+  defaults:
+    _controller: AppBundle\Controller\AdminController::restaurantCategoryAction
+    layout: '@App/admin.html.twig'
+    template: '@App/restaurant/category_form.html.twig'
+    routes:
+      success: admin_restaurant_category
+      restaurants: admin_restaurants
+      restaurants_categories: admin_restaurants_categories
+      menu_taxons: admin_restaurant_menu_taxons
+      menu_taxon: admin_restaurant_menu_taxon
+      products: admin_restaurant_products
+      product_options: admin_restaurant_product_options
+      dashboard: admin_restaurant_dashboard
+      planning: admin_restaurant_planning
+      category: admin_restaurant_category
+  methods: [ GET, POST ]
+
+admin_restaurants_categories:
+  path: /admin/restaurants-categories
+  defaults:
+    _controller: AppBundle\Controller\AdminController::restaurantCategoriesListAction
+    layout: '@App/admin.html.twig'
+    template: '@App/admin/restaurantsCategories.html.twig'
+    routes:
+      dashboard: admin_restaurant_dashboard
+      menu_taxon: admin_restaurant_menu_taxon
+      menu_taxons: admin_restaurant_menu_taxons
+      products: admin_restaurant_products
+      category: admin_restaurant_category
+  methods: [ GET ]
+
 admin_restaurant_menu_taxons:
     path: /admin/restaurants/{id}/menus
     defaults:

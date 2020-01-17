@@ -6,6 +6,7 @@ use AppBundle\Annotation\HideSoftDeleted;
 use AppBundle\Entity\ClosingRule;
 use AppBundle\Entity\Restaurant;
 use AppBundle\Entity\Restaurant\PreparationTimeRule;
+use AppBundle\Entity\RestaurantCategory;
 use AppBundle\Entity\StripeAccount;
 use AppBundle\Entity\Sylius\Order;
 use AppBundle\Entity\Sylius\ProductTaxon;
@@ -17,6 +18,7 @@ use AppBundle\Form\MenuType;
 use AppBundle\Form\PreparationTimeRulesType;
 use AppBundle\Form\ProductOptionType;
 use AppBundle\Form\ProductType;
+use AppBundle\Form\RestaurantCategoryType;
 use AppBundle\Form\RestaurantType;
 use AppBundle\Form\Restaurant\DepositRefundSettingsType;
 use AppBundle\Service\SettingsManager;
@@ -45,6 +47,8 @@ trait RestaurantTrait
 {
     abstract protected function getRestaurantList(Request $request);
 
+    abstract protected function getRestaurantCategoriesList(Request $request);
+
     abstract protected function getRestaurantRoutes();
 
     /**
@@ -67,6 +71,35 @@ trait RestaurantTrait
             'restaurant_route' => $routes['restaurant'],
             'products_route' => $routes['products']
         ]);
+    }
+
+    /**
+     * @HideSoftDeleted
+     */
+    public function restaurantCategoriesListAction(Request $request)
+    {
+        $routes = $request->attributes->get('routes');
+
+
+        [ $restaurantsCategories, $pages, $page ] = $this->getRestaurantCategoriesList($request);
+
+        return $this->render($request->attributes->get('template'), [
+            'layout' => $request->attributes->get('layout'),
+            'restaurantsCategories' => $restaurantsCategories,
+            'pages' => $pages,
+            'page' => $page,
+            'dashboard_route' => $routes['dashboard'],
+            'menu_taxon_route' => $routes['menu_taxon'],
+            'menu_taxons_route' => $routes['menu_taxons'],
+            'category_route' => $routes['category'],
+            'products_route' => $routes['products']
+        ]);
+    }
+    public function newRestaurantCategoryAction(Request $request)
+    {
+        $category = new RestaurantCategory();
+
+        return $this->renderRestaurantCategoryForm($category, $request);
     }
 
     protected function withRoutes($params, array $routes = [])
@@ -174,6 +207,60 @@ trait RestaurantTrait
         ], $routes));
     }
 
+    protected function renderRestaurantCategoryForm(RestaurantCategory $restaurantCategory, Request $request)
+    {
+        $form = $this->createForm(RestaurantCategoryType::class, $restaurantCategory);
+
+        $activationErrors = [];
+        $formErrors = [];
+        $routes = $request->attributes->get('routes');
+
+        $form->handleRequest($request);
+        if ($form->isSubmitted()) {
+            if ($form->isValid()) {
+                $restaurantCategory = $form->getData();
+
+                if ($form->getClickedButton() && 'delete' === $form->getClickedButton()->getName()) {
+
+                    $this->getDoctrine()->getManagerForClass(RestaurantCategory::class)->remove($restaurantCategory);
+                    $this->getDoctrine()->getManagerForClass(RestaurantCategory::class)->flush();
+
+                    return $this->redirectToRoute($routes['restaurants_categories']);
+                }
+
+                $this->getDoctrine()->getManagerForClass(RestaurantCategory::class)->persist($restaurantCategory);
+                $this->getDoctrine()->getManagerForClass(RestaurantCategory::class)->flush();
+
+                $this->addFlash(
+                    'notice',
+                    $this->get('translator')->trans('global.changesSaved')
+                );
+
+                return $this->redirectToRoute($routes['success'], ['id' => $restaurantCategory->getId()]);
+            } else {
+                $violations = new ConstraintViolationList();
+                foreach ($form->getErrors(true) as $error) {
+                    $violations->add($error->getCause());
+                }
+                $formErrors = ValidationUtils::serializeValidationErrors($violations);
+            }
+
+        } else {
+            $validator = $this->get('validator');
+            $violations = $validator->validate($restaurantCategory, null, ['activable']);
+            $activationErrors = ValidationUtils::serializeValidationErrors($violations);
+        }
+
+        return $this->render($request->attributes->get('template'), $this->withRoutes([
+            'category' => $restaurantCategory,
+            'activationErrors' => $activationErrors,
+            'formErrors' => $formErrors,
+            'form' => $form->createView(),
+            'layout' => $request->attributes->get('layout'),
+            'category_route' => $routes['category'],
+        ], $routes));
+    }
+
     public function restaurantAction($id, Request $request)
     {
         $repository = $this->getDoctrine()->getRepository(Restaurant::class);
@@ -183,6 +270,15 @@ trait RestaurantTrait
         $this->accessControl($restaurant);
 
         return $this->renderRestaurantForm($restaurant, $request);
+    }
+
+    public function restaurantCategoryAction($id, Request $request)
+    {
+        $repository = $this->getDoctrine()->getRepository(RestaurantCategory::class);
+
+        $category = $repository->find($id);
+
+        return $this->renderRestaurantCategoryForm($category, $request);
     }
 
     public function newRestaurantAction(Request $request)

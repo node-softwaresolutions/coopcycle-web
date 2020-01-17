@@ -174,6 +174,7 @@ class Restaurant extends FoodEstablishment
 
     private $stripeAccounts;
 
+    private $category;
     /**
      * @var string
      *
@@ -346,6 +347,21 @@ class Restaurant extends FoodEstablishment
 
         return $this;
     }
+
+    public function getCategory()
+    {
+        return $this->category;
+    }
+
+    /**
+     * @param RestaurantCategory $category
+     */
+    public function setCategory(RestaurantCategory $category): void
+    {
+        $this->category = $category;
+    }
+
+
 
     /**
      * If manually uploading a file (i.e. not using Symfony Form) ensure an instance

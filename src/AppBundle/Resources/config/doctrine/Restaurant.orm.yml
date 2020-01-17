@@ -226,6 +226,9 @@ AppBundle\Entity\Restaurant:
             mappedBy: restaurant
             inversedBy: null
     manyToOne:
+        category:
+          targetEntity: AppBundle\Entity\RestaurantCategory
+          inversedBy: restaurants
         address:
             targetEntity: AppBundle\Entity\Address
             cascade:

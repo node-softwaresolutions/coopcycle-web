@@ -1,0 +1,18 @@
+{% if restaurantsCategories|length > 0 %}
+  <table class="table">
+    <tbody>
+    {% for category in restaurantsCategories %}
+      <tr>
+        <td width="5%"><a href="{{ path(category_route, { id: category.id }) }}">#{{ category.id }}</a></td>
+        <td width="25%">{{ category.name }}</td>
+        <td width="70%">{{ category.description }}</td>
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+{% else %}
+  <div class="alert alert-info">
+  {% trans %}category.category.list.norestaurant{% endtrans %}
+  <a href="{{ path('admin_restaurant_new') }}">{% trans %}category.category.list.createNewRestaurant{% endtrans %}</a>
+  </div>
+{% endif %}
