@@ -303,6 +303,11 @@ class ProfileController extends Controller
         return [ $this->getUser()->getRestaurants(), 1, 1 ];
     }
 
+    protected function getRestaurantCategoriesList(Request $request)
+    {
+        return [ $this->getUser()->getRestaurants(), 1, 1 ];
+    }
+
     protected function getStoreList(Request $request)
     {
         return [ $this->getUser()->getStores(), 1, 1 ];

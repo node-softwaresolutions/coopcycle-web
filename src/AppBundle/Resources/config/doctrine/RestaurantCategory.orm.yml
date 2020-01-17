@@ -1,0 +1,32 @@
+AppBundle\Entity\RestaurantCategory:
+    type: entity
+    table: restaurant_category
+    repositoryClass: AppBundle\Entity\RestaurantCategoryRepository
+    id:
+        id:
+            type: integer
+            scale: 0
+            length: null
+            unique: false
+            nullable: false
+            precision: 0
+            id: true
+            generator:
+                strategy: IDENTITY
+    fields:
+        name:
+            type: string
+            scale: 0
+            length: null
+            unique: false
+            nullable: true
+            precision: 0
+        description:
+            type: text
+            nullable: true
+    oneToMany:
+      restaurants:
+        targetEntity: AppBundle\Entity\Restaurant
+        mappedBy: category
+        cascade:
+          - all

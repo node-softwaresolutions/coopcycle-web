@@ -1,0 +1,28 @@
+{% extends "@App/admin.html.twig" %}
+
+{% block breadcrumb %}
+<li>{% trans %}adminDashboard.restaurants.categories.title{% endtrans %}</li>
+{% endblock %}
+
+{% block content %}
+<div class="text-right margin-bottom-md">
+  <a href="{{ path('admin_restaurant_category_new') }}" class="btn btn-success">
+    <i class="fa fa-plus"></i> {% trans %}adminDashboard.restaurants.categories.createNew{% endtrans %}
+  </a>
+</div>
+  {% include "@App/admin/pagination.html.twig" %}
+{% include "@App/_partials/restaurant/list_categories.html.twig" %}
+{% include "@App/admin/pagination.html.twig" %}
+
+{% endblock %}
+
+{% block scripts %}
+  <script>
+  document.querySelectorAll('.restaurant-opening-hours').forEach(function(el) {
+    new CoopCycle.OpeningHoursParser(el, {
+      openingHours: JSON.parse(el.getAttribute('data-opening-hours')),
+      locale: $('html').attr('lang')
+    })
+  })
+  </script>
+{% endblock %}

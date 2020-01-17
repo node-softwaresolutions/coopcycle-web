@@ -4,6 +4,7 @@ namespace AppBundle\Controller;
 
 use AppBundle\Annotation\HideSoftDeleted;
 use AppBundle\Controller\Utils\UserTrait;
+use AppBundle\Entity\RestaurantCategoryRepository;
 use AppBundle\Sylius\Order\AdjustmentInterface;
 use AppBundle\Sylius\Order\OrderInterface;
 use AppBundle\Sylius\Order\OrderItemInterface;
@@ -141,11 +142,14 @@ class RestaurantController extends AbstractController
         $request->getSession()->set($sessionKeyName, $cart->getId());
     }
 
+
+
+
     /**
      * @Route("/restaurants", name="restaurants")
      * @Template()
      */
-    public function listAction(Request $request, RestaurantRepository $repository)
+    public function listAction(Request $request, RestaurantRepository $repository, RestaurantCategoryRepository $categoryRepository)
     {
         $page = $request->query->getInt('page', 1);
         $offset = ($page - 1) * self::ITEMS_PER_PAGE;
@@ -160,6 +164,9 @@ class RestaurantController extends AbstractController
             $longitude = $decoded->getCoordinate()->getLongitude();
 
             $matches = $repository->findByLatLng($latitude, $longitude);
+        }elseif ($request->query->has('category') && $request->query->get('category') > 0) {
+            $categoryId = $request->query->get('category');
+            $matches = $repository->findByCategoryId($categoryId);
         } else {
             $matches = $repository->findAllSorted();
         }
@@ -170,9 +177,12 @@ class RestaurantController extends AbstractController
 
         $pages = ceil($count / self::ITEMS_PER_PAGE);
 
+        $categories = $categoryRepository->findAll();
+
         return array(
             'count' => $count,
             'restaurants' => $matches,
+            'categories' => $categories,
             'page' => $page,
             'pages' => $pages,
             'geohash' => $request->query->get('geohash'),

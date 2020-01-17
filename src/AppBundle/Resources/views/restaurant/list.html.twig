@@ -18,6 +18,17 @@
   <!-- Do NOT put the search component inside the form -->
   <form method="GET" id="restaurant-search-form" action="{{ path('restaurants') }}">
     <input type="hidden" name="geohash" value="{{ geohash }}">
+
+    <select name="category">
+      {% set actualCategory = app.request.get('category') %}
+      <option name="0" value="0">Select Category</option>
+      {% for category in categories %}
+        <option name="{{category.id}}" value="{{category.id}}" {{ (actualCategory==category.id?'selected':'') }}>{{category.name}}</option>
+      {% endfor %}
+    </select>
+
+    <input type="submit" value="Search">
+
   </form>
 </header>
 <div class="container">

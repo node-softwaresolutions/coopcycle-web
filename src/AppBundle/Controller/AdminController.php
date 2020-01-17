@@ -9,6 +9,7 @@ use AppBundle\Controller\Utils\OrderTrait;
 use AppBundle\Controller\Utils\RestaurantTrait;
 use AppBundle\Controller\Utils\StoreTrait;
 use AppBundle\Controller\Utils\UserTrait;
+use AppBundle\Entity\RestaurantCategory;
 use AppBundle\Form\RegistrationType;
 use AppBundle\Form\RestaurantAdminType;
 use AppBundle\Entity\ApiApp;
@@ -104,6 +105,7 @@ class AdminController extends Controller
         return [
             'restaurants' => 'admin_restaurants',
             'restaurant' => 'admin_restaurant',
+            'restaurants_categories' => 'admin_restaurants_categories',
             'menu_taxons' => 'admin_restaurant_menu_taxons',
             'menu_taxon' => 'admin_restaurant_menu_taxon',
             'products' => 'admin_restaurant_products',
@@ -523,6 +525,26 @@ class AdminController extends Controller
         ], self::ITEMS_PER_PAGE, $offset);
 
         return [ $restaurants, $pages, $page ];
+    }
+
+    protected function getRestaurantCategoriesList(Request $request)
+    {
+        $repository = $this->getDoctrine()->getRepository(RestaurantCategory::class);
+
+        $countAll = $repository
+            ->createQueryBuilder('r')->select('COUNT(r)')
+            ->getQuery()->getSingleScalarResult();
+
+        $pages = ceil($countAll / self::ITEMS_PER_PAGE);
+        $page = $request->query->get('p', 1);
+
+        $offset = self::ITEMS_PER_PAGE * ($page - 1);
+
+        $restaurantsCategories = $repository->findBy([], [
+            'id' => 'DESC',
+        ], self::ITEMS_PER_PAGE, $offset);
+
+        return [ $restaurantsCategories, $pages, $page ];
     }
 
     /**

@@ -24,6 +24,10 @@ class RestaurantType extends LocalBusinessType
                 'required' => false,
                 'label' => 'localBusiness.form.description',
             ])
+            ->add('category', null, [
+                'required' => false,
+                'label' => 'categoria',
+            ])
             ->add('orderingDelayDays', IntegerType::class, [
                 'label' => 'localBusiness.form.orderingDelayDays',
                 'mapped' => false

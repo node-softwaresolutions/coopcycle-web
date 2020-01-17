@@ -31,6 +31,7 @@ services:
     tags: ['controller.service_arguments']
 
   coopcycle.repository.restaurant: '@AppBundle\Entity\RestaurantRepository'
+  coopcycle.repository.restaurantcategory: '@AppBundle\Entity\RestaurantCategoryRepository'
 
   coopcycle.preparation_time_calculator: '@AppBundle\Utils\PreparationTimeCalculator'
   coopcycle.shipping_time_calculator: '@AppBundle\Utils\ShippingTimeCalculator'
@@ -457,6 +458,12 @@ services:
       - method: setRestaurantFilter
         arguments:
             - '@coopcycle.utils.restaurant_filter'
+
+  AppBundle\Entity\RestaurantCategoryRepository:
+    factory: ['@doctrine.orm.default_entity_manager', getRepository]
+    arguments:
+      - AppBundle\Entity\RestaurantCategory
+
 
   routing_service:
     public: true
