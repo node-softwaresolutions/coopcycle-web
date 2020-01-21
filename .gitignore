@@ -2,6 +2,11 @@
 /build/
 /phpunit.xml
 
+# Layout
+/src/AppBundle/Resources/views/*
+/assets/*
+/js/app/*
+
 # Dev temp files
 /var/*
 !/var/cache
@@ -32,6 +37,7 @@
 !web/invoices/.gitkeep
 /web/receipts/*
 !web/receipts/.gitkeep
+**/uploads/*
 
 /node_modules/
 .DS_Store
@@ -43,7 +49,11 @@
 # PHPStorm stuff
 .idea
 
+# VS Code
+.vscode
+
 # docker-sync stuff
 .docker-sync
 
 .env
+.env.local
