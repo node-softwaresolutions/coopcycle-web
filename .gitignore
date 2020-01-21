@@ -3,9 +3,9 @@
 /phpunit.xml
 
 # Layout
-/src/AppBundle/Resources/views/*
-/assets/*
-/js/app/*
+/src/AppBundle/Resources/views/
+/assets/
+/js/app/
 
 # Dev temp files
 /var/*
