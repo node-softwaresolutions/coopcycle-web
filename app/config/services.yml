@@ -160,6 +160,8 @@ services:
       $remoteProductImagesFilesystem: '@product_images_s3_filesystem'
       $localRestaurantImagesFilesystem: '@restaurant_images_filesystem'
       $remoteRestaurantImagesFilesystem: '@restaurant_images_s3_filesystem'
+      $localCategoryImagesFilesystem: '@category_images_filesystem'
+      $remoteCategoryImagesFilesystem: '@category_images_s3_filesystem'
       $localTaskImagesFilesystem: '@task_images_filesystem'
       $remoteTaskImagesFilesystem: '@task_images_s3_filesystem'
       $localReceiptsFilesystem: '@receipts_filesystem'

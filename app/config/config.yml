@@ -245,6 +245,9 @@ oneup_flysystem:
         restaurant_images_local:
             local:
                 directory: '%kernel.project_dir%/web/images/restaurants'
+        category_images_local:
+            local:
+                directory: '%kernel.project_dir%/web/images/restaurant-categories'
         store_images_local:
             local:
                 directory: '%kernel.project_dir%/web/images/stores'
@@ -272,6 +275,11 @@ oneup_flysystem:
                 client: s3_client
                 bucket: '%env(S3_BUCKET)%'
                 prefix: restaurants
+        category_images_s3:
+            awss3v3:
+                client: s3_client
+                bucket: '%env(S3_BUCKET)%'
+                prefix: categories
         store_images_s3:
             awss3v3:
                 client: s3_client
@@ -300,6 +308,10 @@ oneup_flysystem:
             adapter: restaurant_images_local
             alias: restaurant_images_filesystem
             mount: restaurant_images_filesystem
+        category_images:
+            adapter: category_images_local
+            alias: category_images_filesystem
+            mount: category_images_filesystem
         store_images:
             adapter: store_images_local
             alias: store_images_filesystem
@@ -320,6 +332,10 @@ oneup_flysystem:
             adapter: restaurant_images_s3
             alias: restaurant_images_s3_filesystem
             mount: restaurant_images_s3_filesystem
+        category_images_s3:
+            adapter: category_images_s3
+            alias: category_images_s3_filesystem
+            mount: category_images_s3_filesystem
         store_images_s3:
             adapter: store_images_s3
             alias: store_images_s3_filesystem
@@ -348,6 +364,15 @@ vich_uploader:
         restaurant_image:
             uri_prefix: ''
             upload_destination: restaurant_images_s3_filesystem
+            namer: vich_uploader.namer_uniqid
+            directory_namer:
+                service: vich_uploader.directory_namer_subdir
+                options:
+                    chars_per_dir: 2
+                    dirs: 2
+        category_image:
+            uri_prefix: ''
+            upload_destination: category_images_s3_filesystem
             namer: vich_uploader.namer_uniqid
             directory_namer:
                 service: vich_uploader.directory_namer_subdir
@@ -560,6 +585,23 @@ liip_imagine:
                 optipng:
                     strip_all: true
                     level: 4
+        category_thumbnail:
+            data_loader: category_images
+            filters:
+                upscale:
+                    min: [ 512, 512 ]
+                thumbnail:
+                    size: [ 512, 512 ]
+                    mode: outbound
+                    allow_upscale: true
+            post_processors:
+                jpegoptim:
+                    strip_all: true
+                    max: 80
+                    progressive: true
+                optipng:
+                    strip_all: true
+                    level: 4
         task_image_thumbnail:
             data_loader: task_images
             filters:
@@ -622,6 +664,9 @@ liip_imagine:
         restaurant_images:
             flysystem:
                 filesystem_service: oneup_flysystem.restaurant_images_s3_filesystem
+        category_images:
+            flysystem:
+                filesystem_service: oneup_flysystem.category_images_s3_filesystem
         product_images:
             flysystem:
                 filesystem_service: oneup_flysystem.product_images_s3_filesystem
@@ -642,6 +687,15 @@ oneup_uploader:
             storage:
                 type: flysystem
                 filesystem: oneup_flysystem.restaurant_images_s3_filesystem
+            allowed_mimetypes:
+                image/jpg: []
+                image/jpeg: []
+                image/png: []
+        restaurantCategory:
+            frontend: dropzone
+            storage:
+                type: flysystem
+                filesystem: oneup_flysystem.category_images_s3_filesystem
             allowed_mimetypes:
                 image/jpg: []
                 image/jpeg: []

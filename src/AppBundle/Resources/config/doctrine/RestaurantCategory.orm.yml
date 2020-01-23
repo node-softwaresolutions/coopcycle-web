@@ -24,6 +24,14 @@ AppBundle\Entity\RestaurantCategory:
         description:
             type: text
             nullable: true
+        imageName:
+          type: string
+          scale: 0
+          length: 255
+          unique: false
+          nullable: true
+          precision: 0
+          column: image_name
     manyToMany:
       restaurants:
         targetEntity: AppBundle\Entity\Restaurant

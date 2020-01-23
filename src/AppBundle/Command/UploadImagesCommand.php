@@ -18,6 +18,8 @@ class UploadImagesCommand extends ContainerAwareCommand
         Filesystem $remoteProductImagesFilesystem,
         Filesystem $localRestaurantImagesFilesystem,
         Filesystem $remoteRestaurantImagesFilesystem,
+        Filesystem $localCategoryImagesFilesystem,
+        Filesystem $remoteCategoryImagesFilesystem,
         Filesystem $localTaskImagesFilesystem,
         Filesystem $remoteTaskImagesFilesystem,
         Filesystem $localReceiptsFilesystem,
@@ -30,6 +32,9 @@ class UploadImagesCommand extends ContainerAwareCommand
 
         $this->localRestaurantImagesFilesystem = $localRestaurantImagesFilesystem;
         $this->remoteRestaurantImagesFilesystem = $remoteRestaurantImagesFilesystem;
+
+        $this->localCategoryImagesFilesystem = $localCategoryImagesFilesystem;
+        $this->remoteCategoryImagesFilesystem = $remoteCategoryImagesFilesystem;
 
         $this->localTaskImagesFilesystem = $localTaskImagesFilesystem;
         $this->remoteTaskImagesFilesystem = $remoteTaskImagesFilesystem;
@@ -67,6 +72,12 @@ class UploadImagesCommand extends ContainerAwareCommand
         $this->synchronize(
             $this->localRestaurantImagesFilesystem,
             $this->remoteRestaurantImagesFilesystem
+        );
+
+        $this->io->text('Uploading category images');
+        $this->synchronize(
+            $this->localCategoryImagesFilesystem,
+            $this->remoteCategoryImagesFilesystem
         );
 
         $this->io->text('Uploading task images');
