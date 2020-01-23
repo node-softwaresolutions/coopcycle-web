@@ -174,6 +174,9 @@ class Restaurant extends FoodEstablishment
 
     private $stripeAccounts;
 
+    /**
+     * @Groups({"restaurant"})
+     */
     private $category;
     /**
      * @var string

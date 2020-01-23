@@ -2,17 +2,36 @@
 
 namespace AppBundle\Entity;
 
+use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\Common\Collections\ArrayCollection;
 use Gedmo\Timestampable\Traits\Timestampable;
+use Symfony\Component\Serializer\Annotation\Groups;
 
+/**
+ * @ApiResource(
+ *   attributes={
+ *     "denormalization_context"={"groups"={"categories"}},
+ *     "normalization_context"={"groups"={"categories"}}
+ *   },
+ * )
+ */
 class RestaurantCategory
 {
     use Timestampable;
 
+    /**
+     * @Groups({"categories"})
+     */
     private $id;
 
+    /**
+     * @Groups({"categories"})
+     */
     protected $name;
 
+    /**
+     * @Groups({"categories"})
+     */
     protected $description;
 
     /**

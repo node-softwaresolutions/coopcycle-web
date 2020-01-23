@@ -166,6 +166,9 @@ AppBundle\Entity\Restaurant:
         owners:
             targetEntity: AppBundle\Entity\ApiUser
             mappedBy: restaurants
+        category:
+            targetEntity: AppBundle\Entity\RestaurantCategory
+            inversedBy: restaurants
         products:
             targetEntity: Sylius\Component\Product\Model\ProductInterface
             mappedBy: restaurant
@@ -226,9 +229,6 @@ AppBundle\Entity\Restaurant:
             mappedBy: restaurant
             inversedBy: null
     manyToOne:
-        category:
-          targetEntity: AppBundle\Entity\RestaurantCategory
-          inversedBy: restaurants
         address:
             targetEntity: AppBundle\Entity\Address
             cascade:

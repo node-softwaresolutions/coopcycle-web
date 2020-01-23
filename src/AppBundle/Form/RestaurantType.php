@@ -26,7 +26,9 @@ class RestaurantType extends LocalBusinessType
             ])
             ->add('category', null, [
                 'required' => false,
-                'label' => 'categoria',
+                'label' => 'Categories',
+                'multiple'=>true,
+                'expanded'=>true,
             ])
             ->add('orderingDelayDays', IntegerType::class, [
                 'label' => 'localBusiness.form.orderingDelayDays',
