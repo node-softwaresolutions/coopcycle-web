@@ -691,7 +691,7 @@ oneup_uploader:
                 image/jpg: []
                 image/jpeg: []
                 image/png: []
-        restaurantCategory:
+        category:
             frontend: dropzone
             storage:
                 type: flysystem

@@ -50,9 +50,12 @@
 
   <div class="row">
     <div class="col-sm-3">
+
       {% if form.imageFile is defined %}
         {{ form_row(form.imageFile) }}
       {% endif %}
+      <div id="category-dropzone"></div>
+
     </div>
     <div class="col-sm-9">
       {{ form_row(form.name) }}
@@ -75,5 +78,33 @@
 
   {{ form_end(form) }}
 
+  <div id="rrestaurant-form-data"
+       data-action-url="{{ oneup_uploader_endpoint('category') }}"
+       data-restaurant-id="{{ category.id }}"
+       data-restaurant-image="{{ coopcycle_asset(category, 'imageFile', 'category_thumbnail') }}"></div>
+
 {% endblock %}
 
+{% block scripts %}
+  <script>
+
+    (function() {
+
+      new window.CoopCycle.Dropzone($('#category-dropzone'), {
+        dropzone: {
+          url: "{{ oneup_uploader_endpoint('category') }}",
+          params: {
+            type: 'category',
+          }
+        },
+        image: "{{ coopcycle_logo() }}",
+        size: [ 256, 256 ],
+        croppie: {
+          format: 'png'
+        }
+      })
+
+    })();
+
+  </script>
+{% endblock %}
