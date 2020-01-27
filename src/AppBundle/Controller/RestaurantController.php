@@ -4,6 +4,7 @@ namespace AppBundle\Controller;
 
 use AppBundle\Annotation\HideSoftDeleted;
 use AppBundle\Controller\Utils\UserTrait;
+use AppBundle\Entity\RestaurantCategory;
 use AppBundle\Entity\RestaurantCategoryRepository;
 use AppBundle\Sylius\Order\AdjustmentInterface;
 use AppBundle\Sylius\Order\OrderInterface;
@@ -127,7 +128,7 @@ class RestaurantController extends AbstractController
             ->addMeta('property', 'restaurant:contact_info:website', $restaurant->getWebsite())
             ->addMeta('property', 'place:location:latitude', (string) $restaurant->getAddress()->getGeo()->getLatitude())
             ->addMeta('property', 'place:location:longitude', (string) $restaurant->getAddress()->getGeo()->getLongitude())
-            ;
+        ;
 
         $imagePath = $this->uploaderHelper->asset($restaurant, 'imageFile');
         if (null !== $imagePath) {
@@ -391,8 +392,8 @@ class RestaurantController extends AbstractController
      * @Route("/restaurant/{id}/cart/product/{code}", name="restaurant_add_product_to_cart", methods={"POST"})
      */
     public function addProductToCartAction($id, $code, Request $request,
-        CartContextInterface $cartContext,
-        TranslatorInterface $translator)
+                                           CartContextInterface $cartContext,
+                                           TranslatorInterface $translator)
     {
         $restaurant = $this->getDoctrine()
             ->getRepository(Restaurant::class)->find($id);
@@ -599,10 +600,10 @@ class RestaurantController extends AbstractController
      * @IsGranted("IS_AUTHENTICATED_FULLY")
      */
     public function suggestRestaurantAction(Request $request,
-        EntityManagerInterface $manager,
-        EmailManager $emailManager,
-        SettingsManager $settingsManager,
-        TranslatorInterface $translator)
+                                            EntityManagerInterface $manager,
+                                            EmailManager $emailManager,
+                                            SettingsManager $settingsManager,
+                                            TranslatorInterface $translator)
     {
         if ('yes' !== $settingsManager->get('enable_restaurant_pledges')) {
             throw new NotFoundHttpException();
@@ -658,4 +659,18 @@ class RestaurantController extends AbstractController
 
         return $this->redirectToRoute('restaurant', [ 'id' => $id ]);
     }
+
+    /**
+     * @Route("/categories/{id}", name="single-category")
+     * @Template()
+     */
+    public function singleCategoryAction(Request $request, RestaurantCategory $category)
+    {
+
+        return array(
+            'category'=>$category
+        );
+    }
+
+
 }
