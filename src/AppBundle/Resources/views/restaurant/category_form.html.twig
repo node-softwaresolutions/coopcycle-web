@@ -1,5 +1,7 @@
 {% extends '@App/restaurant/category_layout.html.twig' %}
 
+{% form_theme form '@App/form/restaurant.html.twig' %}
+
 {% block breadcrumb %}
 <li><a href="{{ path(restaurants_categories_route) }}">{% trans %}adminDashboard.restaurants.categories.title{% endtrans %}</a></li>
 <li>{% if category.id is not empty %}{{ category.name }}{% else %}{% trans %}restaurant.category.form.createRestaurantCategory{% endtrans %}{% endif %}</li>
@@ -78,7 +80,7 @@
 
   {{ form_end(form) }}
 
-  <div id="rrestaurant-form-data"
+  <div id="restaurant-form-data"
        data-action-url="{{ oneup_uploader_endpoint('category') }}"
        data-restaurant-id="{{ category.id }}"
        data-restaurant-image="{{ coopcycle_asset(category, 'imageFile', 'category_thumbnail') }}"></div>

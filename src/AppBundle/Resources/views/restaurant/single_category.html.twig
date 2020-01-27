@@ -1,0 +1,34 @@
+{% extends "@App/base.html.twig" %}
+
+{% block body %}
+  <header class="restaurant-list-header">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-6 col-md-offset-3">
+          <div id="address-search">
+            <!-- This will be replaced by React -->
+            <div class="form-group text-center text-white">
+              <h2>{{ category.name }}</h2>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <div class="container">
+      <div class="row display-flex restaurant-list">
+        {% for restaurant in category.restaurants %}
+          {% if restaurant.enabled == true %}
+            <div class="col-sm-6 col-md-4 display-flex">
+              {% include "@App/_partials/restaurant/list_thumbnail.html.twig" %}
+            </div>
+          {% endif %}
+        {% endfor %}
+      </div>
+  </div>
+{% endblock %}
+
+{% block scripts %}
+{% endblock %}
+
