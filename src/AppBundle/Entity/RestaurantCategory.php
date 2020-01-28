@@ -56,6 +56,7 @@ class RestaurantCategory
 
     /**
      * @var Restaurant
+     * @Groups({"categories"})
      */
     protected $restaurants;
 
